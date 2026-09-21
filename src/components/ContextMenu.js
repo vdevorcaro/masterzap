@@ -101,8 +101,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
         label: 'Compartilhar texto',
         icon: ICON_SEND,
         action: () => {
-          const baseUrl = window.location.origin;
-          const shareUrl = `${baseUrl}/#/chat/${conversationId}/msg/${msg.id}`;
+          const baseUrl = window.location.origin + import.meta.env.BASE_URL;
+          const shareUrl = `${baseUrl}#/chat/${conversationId}/msg/${msg.id}`;
           const senderDisplay = senderNames[msg.sender] || msg.sender || '';
           const shareText = msg.content ? `"${msg.content}" — ${senderDisplay}` : '';
 

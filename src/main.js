@@ -65,24 +65,24 @@ async function init() {
   // Contacts with a photograph. Everyone else falls back to the generated
   // coloured avatar in lib/avatar.js, keyed by conversation id.
   const AVATARS = {
-    'martha-graeff': '/assets/avatar-martha-graeff.jpeg',
-    'alexandre-de-moraes': '/assets/avatar-alexandre-de-moraes.jpg',
-    'fabio-faria': '/assets/avatar-fabio-faria.jpg',
-    'vivi-moraes': '/assets/avatar-vivi-moraes.jpg',
-    'ciro-soares': '/assets/avatar-ciro-soares.jpg',
-    'geraldo-brazil-journal': '/assets/avatar-geraldo-brazil-journal.jpg',
-    'fabiano-zettel': '/assets/avatar-fabiano-zettel.jpg',
-    'marcio-conjur': '/assets/avatar-marcio-conjur.jpg',
-    'diretor-paulo-sergio-bacen': '/assets/avatar-diretor-paulo-sergio-bacen.jpg',
-    'leo-palhares': '/assets/avatar-leo-palhares.jpg',
-    'marcos-prime': '/assets/avatar-marcos-prime.jpg',
-    'thatiane-prime': '/assets/avatar-thatiane-prime.jpg',
-    'leo-serrano': '/assets/avatar-leo-serrano.jpg',
-    'stella-vorcaro': '/assets/avatar-stella-vorcaro.jpg',
-    'luiz-renno': '/assets/avatar-luiz-renno.jpg',
-    'ana-matos-mkt': '/assets/avatar-ana-matos-mkt.jpg',
+    'martha-graeff': `${import.meta.env.BASE_URL}assets/avatar-martha-graeff.jpeg`,
+    'alexandre-de-moraes': `${import.meta.env.BASE_URL}assets/avatar-alexandre-de-moraes.jpg`,
+    'fabio-faria': `${import.meta.env.BASE_URL}assets/avatar-fabio-faria.jpg`,
+    'vivi-moraes': `${import.meta.env.BASE_URL}assets/avatar-vivi-moraes.jpg`,
+    'ciro-soares': `${import.meta.env.BASE_URL}assets/avatar-ciro-soares.jpg`,
+    'geraldo-brazil-journal': `${import.meta.env.BASE_URL}assets/avatar-geraldo-brazil-journal.jpg`,
+    'fabiano-zettel': `${import.meta.env.BASE_URL}assets/avatar-fabiano-zettel.jpg`,
+    'marcio-conjur': `${import.meta.env.BASE_URL}assets/avatar-marcio-conjur.jpg`,
+    'diretor-paulo-sergio-bacen': `${import.meta.env.BASE_URL}assets/avatar-diretor-paulo-sergio-bacen.jpg`,
+    'leo-palhares': `${import.meta.env.BASE_URL}assets/avatar-leo-palhares.jpg`,
+    'marcos-prime': `${import.meta.env.BASE_URL}assets/avatar-marcos-prime.jpg`,
+    'thatiane-prime': `${import.meta.env.BASE_URL}assets/avatar-thatiane-prime.jpg`,
+    'leo-serrano': `${import.meta.env.BASE_URL}assets/avatar-leo-serrano.jpg`,
+    'stella-vorcaro': `${import.meta.env.BASE_URL}assets/avatar-stella-vorcaro.jpg`,
+    'luiz-renno': `${import.meta.env.BASE_URL}assets/avatar-luiz-renno.jpg`,
+    'ana-matos-mkt': `${import.meta.env.BASE_URL}assets/avatar-ana-matos-mkt.jpg`,
     // The chat Vorcaro kept with himself — his own photo, as WhatsApp shows it.
-    'dv-self': '/assets/avatar-dv.jpg',
+    'dv-self': `${import.meta.env.BASE_URL}assets/avatar-dv.jpg`,
   };
   const SENDER_NAMES = { 'DV': 'Daniel Vocaro' };
   // Per-conversation media tallies come from conversations.json (built by
@@ -466,7 +466,7 @@ async function init() {
 
   const navRail = renderNavRail(container, {
     onCalls: () => router.navigate('calls'),
-    avatarSrc: '/assets/avatar-dv.jpg',
+    avatarSrc: `${import.meta.env.BASE_URL}assets/avatar-dv.jpg`,
     onSettings: openSettings,
     onChat: () => {
       // From the calls screen, this is the way back to the list.
@@ -524,7 +524,7 @@ async function init() {
   let callsPromise = null;
   router.on('calls', async () => {
     showEmptyState();
-    callsPromise ??= fetch('/data/calls.json').then(r => r.json()).then(d => d.calls);
+    callsPromise ??= fetch(`${import.meta.env.BASE_URL}data/calls.json`).then(r => r.json()).then(d => d.calls);
     let calls = [];
     try { calls = await callsPromise; } catch { callsPromise = null; }
     const panel = renderCallsPanel({

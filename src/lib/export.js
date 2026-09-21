@@ -6,7 +6,7 @@
  * what the script writes; if one changes, the other has to.
  */
 
-export const EXPORT_BASE = '/export';
+export const EXPORT_BASE = `${import.meta.env.BASE_URL}export`;
 export const EXPORT_FORMATS = ['md', 'json'];
 
 /** URL of one conversation's export in the given format. */

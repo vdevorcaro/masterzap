@@ -55,10 +55,10 @@ export class DataStore {
   /**
    * @param {object} options
    * @param {number} [options.cacheSize=30] - Max day-chunks to keep in LRU cache
-   * @param {string} [options.basePath='/data'] - Base path for data files
+   * @param {string} [options.basePath=BASE_URL + 'data'] - Base path for data files
    * @param {function} [options.fetcher] - Custom fetch function (for testing)
    */
-  constructor({ cacheSize = 30, basePath = '/data', fetcher } = {}) {
+  constructor({ cacheSize = 30, basePath = `${import.meta.env.BASE_URL}data`, fetcher } = {}) {
     this._basePath = basePath;
     this._fetcher = fetcher || ((url) => fetch(url).then(r => {
       if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);

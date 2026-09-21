@@ -18,10 +18,10 @@ let _loadingId = null;
  * to refetch, or a search in one conversation would return hits from another.
  *
  * @param {string} conversationId
- * @param {string} [basePath='/data']
+ * @param {string} [basePath=BASE_URL + 'data']
  * @returns {Promise<Array>}
  */
-export async function loadSearchIndex(conversationId, basePath = '/data') {
+export async function loadSearchIndex(conversationId, basePath = `${import.meta.env.BASE_URL}data`) {
   if (_index && _indexId === conversationId) return _index;
   if (_loading && _loadingId === conversationId) return _loading;
 

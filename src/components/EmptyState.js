@@ -19,7 +19,7 @@ export function renderEmptyState(container) {
   el.innerHTML = `
     <img
       class="empty-state-icon"
-      src="/assets/masterzap-logo.png"
+      src="${import.meta.env.BASE_URL}assets/masterzap-logo.png"
       alt=""
       aria-hidden="true"
     />

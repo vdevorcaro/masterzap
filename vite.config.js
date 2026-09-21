@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite';
 
+import { BASE, SITE } from './scripts/lib/corpus.mjs';
+
 export default defineConfig({
   root: '.',
+  // '/' unless SITE_URL puts the site under a path (GitHub Pages)
+  base: `${BASE}/`,
+  define: {
+    __SITE__: JSON.stringify(SITE),
+  },
   publicDir: 'public',
   build: {
     outDir: 'dist',
@@ -18,5 +25,9 @@ export default defineConfig({
   test: {
     include: ['tests/unit/**/*.test.js'],
     environment: 'jsdom',
+    // Node 25 ships its own localStorage global, which hides jsdom's
+    poolOptions: {
+      forks: { execArgv: ['--no-experimental-webstorage'] },
+    },
   },
 });

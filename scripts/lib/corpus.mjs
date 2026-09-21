@@ -11,7 +11,25 @@ export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 export const DATA_DIR = join(ROOT, 'data');
 export const PUBLIC_DATA = join(ROOT, 'public/data');
 
-export const SITE = 'https://www.masterwhats.com.br';
+// Where the site is served. SITE_URL moves it, subpath included: GitHub Pages
+// serves a project repo at https://<user>.github.io/<repo>.
+export const DEFAULT_SITE = 'https://www.masterwhats.com.br';
+export const SITE = (process.env.SITE_URL || DEFAULT_SITE).replace(/\/+$/, '');
+/** The path the site lives under: '' at a domain's root, '/<repo>' on a project page. */
+export const BASE = new URL(SITE).pathname.replace(/\/+$/, '');
+
+/**
+ * Hand-written pages link from the root (href="/chat/x", src="/assets/y") and
+ * name DEFAULT_SITE; point both at where this build is served. Paths Vite has
+ * already moved under BASE are left alone.
+ */
+export function relocate(text) {
+  if (SITE !== DEFAULT_SITE) text = text.split(DEFAULT_SITE).join(SITE);
+  if (!BASE) return text;
+  const skip = BASE.slice(1).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(\\b(?:href|src)=["'])/(?!/|${skip}/)`, 'g'), `$1${BASE}/`);
+}
+
 export const REPO = 'https://github.com/rafaelbressan/masterzap';
 
 // The phones were seized in Brazil and every timestamp in the sources is local

@@ -167,9 +167,10 @@ function inlineStylesheets(clonedDoc) {
 
 /** Height, in CSS pixels, of the bar with the site's address under every print. */
 export const ATTRIBUTION_BAR_HEIGHT = 44;
-const ATTRIBUTION_URL = 'www.masterwhats.com.br';
+// __SITE__ comes from vite.config.js; the E2E suite imports this file straight into Node
+const ATTRIBUTION_URL = (typeof __SITE__ === 'string' ? __SITE__ : 'https://www.masterwhats.com.br').replace(/^https?:\/\//, '');
 const ATTRIBUTION_NAME = 'MasterWhats';
-const ATTRIBUTION_LOGO = '/assets/masterzap-logo.png';
+const ATTRIBUTION_LOGO = `${import.meta.env?.BASE_URL ?? '/'}assets/masterzap-logo.png`;
 
 function loadImage(src) {
   return new Promise((resolve) => {

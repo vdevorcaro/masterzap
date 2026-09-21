@@ -18,20 +18,26 @@
  *                                     highlights, people — with a pointer to
  *                                     each conversation's Markdown
  *   dist/sitemap.xml                  all of the above
+ *   dist/404.html                     the app page, for hosts without
+ *                                     rewrites (GitHub Pages): a path nothing
+ *                                     was written for still opens the app
+ *
+ * Built with SITE_URL set to somewhere other than the root of
+ * www.masterwhats.com.br, every page and text file is then moved there.
  *
  * The router keeps its hash routes; nothing in the app changes. A crawler that
  * runs no JavaScript reads the article. A browser runs the app, which removes
  * the article as its first act.
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
 import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import { PEOPLE } from '../src/lib/people-content.js';
 import {
-  ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
+  ROOT, SITE, REPO, relocate, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, contactOf, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
   longDate, phonePretty, messageText, citationOf, messageUrl,
@@ -529,4 +535,13 @@ const stampSizes = (text) => text.replace(/(masterwhats(?:-export)?\.(?:md|json|
 writeFileSync(join(DIST, 'llms.txt'), stampSizes(readFileSync(join(DIST, 'llms.txt'), 'utf-8')));
 writeFileSync(join(DIST, 'llms-full.txt'), stampSizes(llmsFull(built, people)));
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap(built, people));
+writeFileSync(join(DIST, '404.html'), readFileSync(join(DIST, 'index.html'), 'utf-8'));
+
+const walk = (dir) => readdirSync(dir, { withFileTypes: true })
+  .flatMap(d => d.isDirectory() ? walk(join(dir, d.name)) : [join(dir, d.name)]);
+for (const file of walk(DIST).filter(f => /\.(html|txt|xml)$/.test(f))) {
+  const text = readFileSync(file, 'utf-8');
+  const moved = relocate(text);
+  if (moved !== text) writeFileSync(file, moved);
+}
 console.log(`\nDone! ${built.length} conversations, ${people.length} people, llms-full.txt, sitemap.xml → ${DIST}`);

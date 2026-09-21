@@ -16,7 +16,7 @@
 
 export const VORCARO_PROFILE = {
   name: 'Daniel Vorcaro',
-  avatar: '/assets/avatar-dv.jpg',
+  avatar: `${import.meta.env?.BASE_URL ?? '/'}assets/avatar-dv.jpg`,
   phone: '+55 31 9XXXX-XXXX',
   sections: [
     {

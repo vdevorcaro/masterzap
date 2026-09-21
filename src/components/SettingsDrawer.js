@@ -56,7 +56,7 @@ export function showSettingsDrawer(container, { onClose, actions = {} } = {}) {
   logoSection.className = 'settings-logo-section';
 
   const logoImg = document.createElement('img');
-  logoImg.src = '/assets/masterzap-logo.png';
+  logoImg.src = `${import.meta.env.BASE_URL}assets/masterzap-logo.png`;
   logoImg.alt = 'MasterWhats';
   logoImg.className = 'settings-logo-img';
   logoImg.width = 80;
